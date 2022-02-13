@@ -2,4 +2,4 @@
 /target/
 /.idea/
 /logs/
-/images/
+/src/main/resources/images/*
