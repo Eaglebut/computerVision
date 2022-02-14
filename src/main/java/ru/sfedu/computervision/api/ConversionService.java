@@ -4,8 +4,11 @@ import lombok.extern.log4j.Log4j2;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
-import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Log4j2
 public class ConversionService {
@@ -72,6 +75,20 @@ public class ConversionService {
         Mat dstHV = new Mat();
         Core.flip(image, dstHV, -1);
         return dstHV;
+    }
+
+    public Mat repeatVertical(Mat image, int amount) {
+        List<Mat> images = IntStream.range(0, amount).mapToObj(i -> image).collect(Collectors.toList());
+        Mat repeated = new Mat();
+        Core.vconcat(images, repeated);
+        return repeated;
+    }
+
+    public Mat repeatHorizontal(Mat image, int amount) {
+        List<Mat> images = IntStream.range(0, amount).mapToObj(i -> image).collect(Collectors.toList());
+        Mat repeated = new Mat();
+        Core.hconcat(images, repeated);
+        return repeated;
     }
 
 }

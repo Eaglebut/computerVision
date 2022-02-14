@@ -53,6 +53,7 @@ class LabTest {
 
     private void lab3Task2(){
         mirrorTest();
+        repeatTest();
     }
 
     private void sobelTest() {
@@ -97,4 +98,17 @@ class LabTest {
         );
     }
 
+    private void repeatTest(){
+        Mat image = Imgcodecs.imread(TEST_IMAGE_PATH + TEST_IMAGE_NAME, Imgcodecs.IMREAD_COLOR);
+        imageService.saveMatToFile(
+                TEST_IMAGE_PATH,
+                "repeatVertical_",
+                conversionService.repeatVertical(image, 3)
+        );
+        imageService.saveMatToFile(
+                TEST_IMAGE_PATH,
+                "repeatHorizontal_",
+                conversionService.repeatHorizontal(image, 3)
+        );
+    }
 }
