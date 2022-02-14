@@ -3,6 +3,7 @@ package ru.sfedu.computervision.api;
 import lombok.extern.log4j.Log4j2;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,14 +28,14 @@ public class ImageService {
 		OsService.load();
 	}
 
-	public void saveMatToFile(String filePath, Mat img) {
+	public void saveMatToFile(String filePath, String filename, Mat img) {
 		try {
-			String modFilePath = buildImageName(filePath);
-			Imgcodecs.imwrite(modFilePath, img);
+			Imgcodecs.imwrite(filePath + getNameWithDate(filename), img);
 		} catch (Exception e) {
 			log.debug("only .JPG and .PNG files are supported");
 		}
 	}
+
 
 	public BufferedImage matrixToBufferedImage(Mat matrixImage) {
 		int type = matrixImage.channels() > 1 ? BufferedImage.TYPE_3BYTE_BGR : BufferedImage.TYPE_BYTE_GRAY;
@@ -62,7 +63,14 @@ public class ImageService {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	private String buildImageName(String base) {
-		return String.format("%s%d.jpg", base, System.nanoTime());
+	private String getNameWithDate(String base) {
+		return String.format("%s_%d.jpg", base, System.nanoTime());
+	}
+
+	public Mat getGrayImageMatrix(String path, String fileName) {
+		Mat srcImage = Imgcodecs.imread(path + fileName, Imgcodecs.IMREAD_COLOR);
+		Mat grayImage = new Mat();
+		Imgproc.cvtColor(srcImage, grayImage, Imgproc.COLOR_BGR2GRAY);
+		return grayImage;
 	}
 }
