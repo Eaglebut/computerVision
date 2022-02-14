@@ -43,11 +43,16 @@ class LabTest {
     @Test
     public void lab3() {
         lab3Task1();
+        lab3Task2();
     }
 
     private void lab3Task1(){
         sobelTest();
         laplacianTest();
+    }
+
+    private void lab3Task2(){
+        mirrorTest();
     }
 
     private void sobelTest() {
@@ -72,4 +77,24 @@ class LabTest {
                 conversionService.laplacianConversion(grayImageMatrix)
         );
     }
+
+    private void mirrorTest(){
+        Mat image = Imgcodecs.imread(TEST_IMAGE_PATH + TEST_IMAGE_NAME, Imgcodecs.IMREAD_COLOR);
+        imageService.saveMatToFile(
+                TEST_IMAGE_PATH,
+                "mirrorH_",
+                conversionService.mirrorH(image)
+        );
+        imageService.saveMatToFile(
+                TEST_IMAGE_PATH,
+                "mirrorV_",
+                conversionService.mirrorV(image)
+        );
+        imageService.saveMatToFile(
+                TEST_IMAGE_PATH,
+                "mirrorHV_",
+                conversionService.mirrorHV(image)
+        );
+    }
+
 }
