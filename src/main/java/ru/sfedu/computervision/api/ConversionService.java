@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.List;
@@ -89,6 +90,12 @@ public class ConversionService {
         Mat repeated = new Mat();
         Core.hconcat(images, repeated);
         return repeated;
+    }
+
+    public Mat resize(Mat image, int x, int y) {
+        Mat dst = new Mat();
+        Imgproc.resize(image, dst, new Size(x, y));
+        return dst;
     }
 
 }

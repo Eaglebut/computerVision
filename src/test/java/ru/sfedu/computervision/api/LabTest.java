@@ -54,6 +54,16 @@ class LabTest {
     private void lab3Task2(){
         mirrorTest();
         repeatTest();
+        resize();
+    }
+
+    private void resize() {
+        Mat image = imageService.getImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_NAME);
+        imageService.saveMatToFile(
+                TEST_IMAGE_PATH,
+                "resize_",
+                conversionService.resize(image, 100, 100)
+        );
     }
 
     private void sobelTest() {
@@ -80,7 +90,7 @@ class LabTest {
     }
 
     private void mirrorTest(){
-        Mat image = Imgcodecs.imread(TEST_IMAGE_PATH + TEST_IMAGE_NAME, Imgcodecs.IMREAD_COLOR);
+        Mat image = imageService.getImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_NAME);
         imageService.saveMatToFile(
                 TEST_IMAGE_PATH,
                 "mirrorH_",
@@ -99,7 +109,7 @@ class LabTest {
     }
 
     private void repeatTest(){
-        Mat image = Imgcodecs.imread(TEST_IMAGE_PATH + TEST_IMAGE_NAME, Imgcodecs.IMREAD_COLOR);
+        Mat image = imageService.getImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_NAME);
         imageService.saveMatToFile(
                 TEST_IMAGE_PATH,
                 "repeatVertical_",
@@ -111,4 +121,6 @@ class LabTest {
                 conversionService.repeatHorizontal(image, 3)
         );
     }
+
+
 }

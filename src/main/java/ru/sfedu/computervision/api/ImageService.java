@@ -73,4 +73,8 @@ public class ImageService {
 		Imgproc.cvtColor(srcImage, grayImage, Imgproc.COLOR_BGR2GRAY);
 		return grayImage;
 	}
+
+	public Mat getImageMatrix(String path, String fileName){
+		return Imgcodecs.imread(path + fileName, Imgcodecs.IMREAD_COLOR);
+	}
 }
