@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
 import org.opencv.imgcodecs.Imgcodecs;
 
 @Log4j2
@@ -28,7 +29,7 @@ class LabTest {
 
     @Test
     public void lab2() {
-        lab2(3, TEST_IMAGE_PATH, TEST_IMAGE_NAME);
+        lab2(20, TEST_IMAGE_PATH, TEST_IMAGE_NAME);
     }
 
     private Mat lab2(int numberOfChannel, String pathName, String imageName) {
@@ -44,17 +45,35 @@ class LabTest {
     public void lab3() {
         lab3Task1();
         lab3Task2();
+        lab3Task3();
+        lab3Task4();
     }
 
-    private void lab3Task1(){
+    private void lab3Task1() {
         sobelTest();
         laplacianTest();
     }
 
-    private void lab3Task2(){
+    private void lab3Task2() {
         mirrorTest();
         repeatTest();
         resize();
+    }
+
+    private void lab3Task3() {
+        Mat image = imageService.getImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_NAME);
+        Mat dst = new Mat();
+        conversionService.rotateImage(image, dst, 30, false);
+        imageService.saveMatToFile(TEST_IMAGE_PATH, "rotate_", dst);
+    }
+
+    private void lab3Task4() {
+        Mat image = imageService.getImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_NAME);
+        imageService.saveMatToFile(TEST_IMAGE_PATH, "changePerspective_",
+                conversionService.changePerspective(image, new Point(0, 100),
+                        new Point(image.width(), 200),
+                        new Point(0, image.height() - 100),
+                        new Point(image.width(), image.height() - 200)));
     }
 
     private void resize() {
@@ -89,7 +108,7 @@ class LabTest {
         );
     }
 
-    private void mirrorTest(){
+    private void mirrorTest() {
         Mat image = imageService.getImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_NAME);
         imageService.saveMatToFile(
                 TEST_IMAGE_PATH,
@@ -108,7 +127,7 @@ class LabTest {
         );
     }
 
-    private void repeatTest(){
+    private void repeatTest() {
         Mat image = imageService.getImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_NAME);
         imageService.saveMatToFile(
                 TEST_IMAGE_PATH,
@@ -121,6 +140,5 @@ class LabTest {
                 conversionService.repeatHorizontal(image, 3)
         );
     }
-
 
 }

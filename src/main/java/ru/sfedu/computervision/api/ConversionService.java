@@ -1,12 +1,11 @@
 package ru.sfedu.computervision.api;
 
 import lombok.extern.log4j.Log4j2;
-import org.opencv.core.Core;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-import org.opencv.core.Size;
+import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.utils.Converters;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -97,5 +96,44 @@ public class ConversionService {
         Imgproc.resize(image, dst, new Size(x, y));
         return dst;
     }
+
+    public void rotateImage(Mat imageSrc, Mat imageDst, double angle, boolean cutImage) {
+        Point center = new Point(imageSrc.width() / 2.0, imageSrc.height() / 2.0);
+        double scale = 1;
+        if (!cutImage) {
+            double size = Math.sqrt(imageSrc.width() * imageSrc.width() + imageSrc.height() * imageSrc.height());
+            double scaleX = imageSrc.width() / size;
+            double scaleY = imageSrc.height() / size;
+            scale = Math.min(scaleX, scaleY);
+        }
+        Mat rotationMat = Imgproc.getRotationMatrix2D(
+                center,
+                angle,
+                scale
+        );
+        Imgproc.warpAffine(imageSrc, imageDst, rotationMat, imageSrc.size());
+    }
+
+    /**
+     * transform rectangle with vertices ABCD
+     */
+    public Mat changePerspective(Mat imageSrc,
+                                 Point targetA,
+                                 Point targetB,
+                                 Point targetC,
+                                 Point targetD) {
+        Mat dst = new Mat();
+        List<Point> pointsSrc = Arrays.asList(new Point(0, 0),
+                new Point(imageSrc.width(), 0),
+                new Point(0, imageSrc.height()),
+                new Point(imageSrc.width(), imageSrc.height()));
+        List<Point> pointsDst = Arrays.asList(targetA, targetB, targetC, targetD);
+        Mat srcPointMat = Converters.vector_Point_to_Mat(pointsSrc, CvType.CV_32F);
+        Mat dstPointMat = Converters.vector_Point_to_Mat(pointsDst, CvType.CV_32F);
+        Mat perspectiveTransform = Imgproc.getPerspectiveTransform(srcPointMat, dstPointMat);
+        Imgproc.warpPerspective(imageSrc, dst, perspectiveTransform, imageSrc.size());
+        return dst;
+    }
+
 
 }
