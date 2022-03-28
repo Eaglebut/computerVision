@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeAll;
 abstract class LabTest {
 
     protected static final String TEST_IMAGE_PATH = "Z:/projects/computerVision/src/main/resources/images/";
-    protected static final String TEST_IMAGE_NAME = "Z8to82CyVpg.jpg";
+    protected static final String TEST_IMAGE_CAT = "Z8to82CyVpg.jpg";
 
     protected static ImageService imageService;
     protected static ConversionService conversionService;

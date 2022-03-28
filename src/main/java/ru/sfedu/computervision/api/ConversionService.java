@@ -135,5 +135,46 @@ public class ConversionService {
         return dst;
     }
 
+    public Mat baseBlur(Mat src, Size kSize) {
+        Mat dst = new Mat();
+        Imgproc.blur(src, dst, kSize, new Point(-1, -1));
+        return dst;
+    }
+
+    public Mat gaussianBlur(Mat src, Size ksize, double sigmaX, double sigmaY, int borderType) {
+        Mat dst = new Mat();
+        Imgproc.GaussianBlur(src, dst, ksize, sigmaX, sigmaY, borderType);
+        return dst;
+    }
+
+    public Mat medianBlur(Mat src, int ksize) {
+        Mat dst = new Mat();
+        Imgproc.medianBlur(src, dst, ksize);
+        return dst;
+    }
+
+    public Mat bilateralFilter(Mat src, int d, double sigmaColor, double sigmaSpace, int borderType) {
+        Mat dst = new Mat();
+        Imgproc.bilateralFilter(src, dst, d, sigmaColor, sigmaSpace, borderType);
+        return dst;
+    }
+
+    public Mat dilate(Mat src, Mat morphEllipse) {
+        Mat dst = src.clone();
+        Imgproc.dilate(src, dst, morphEllipse);
+        return dst;
+    }
+
+    public Mat morphGradient(Mat src, Mat morph) {
+        Mat dst = src.clone();
+        Imgproc.morphologyEx(src, dst, Imgproc.MORPH_GRADIENT, morph);
+        return dst;
+    }
+
+    public Mat morphBlackHat(Mat src, Mat morph) {
+        Mat dst = src.clone();
+        Imgproc.morphologyEx(src, dst, Imgproc.MORPH_BLACKHAT, morph);
+        return dst;
+    }
 
 }

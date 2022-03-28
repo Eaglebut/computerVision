@@ -26,7 +26,7 @@ public class ThirdLabTest extends LabTest {
 
     @Test
     public void task3() {
-        Mat image = imageService.getImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_NAME);
+        Mat image = imageService.getImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_CAT);
         Mat dst = new Mat();
         conversionService.rotateImage(image, dst, 30, false);
         imageService.saveMatToFile(TEST_IMAGE_PATH + LAB_PATH, "rotate_", dst);
@@ -34,7 +34,7 @@ public class ThirdLabTest extends LabTest {
 
     @Test
     public void task4() {
-        Mat image = imageService.getImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_NAME);
+        Mat image = imageService.getImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_CAT);
         imageService.saveMatToFile(TEST_IMAGE_PATH + LAB_PATH, "changePerspective_",
                 conversionService.changePerspective(image, new Point(0, 100),
                         new Point(image.width(), 200),
@@ -43,7 +43,7 @@ public class ThirdLabTest extends LabTest {
     }
 
     private void resize() {
-        Mat image = imageService.getImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_NAME);
+        Mat image = imageService.getImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_CAT);
         imageService.saveMatToFile(
                 TEST_IMAGE_PATH + LAB_PATH,
                 "resize_",
@@ -52,7 +52,7 @@ public class ThirdLabTest extends LabTest {
     }
 
     private void sobelTest() {
-        Mat grayImageMatrix = imageService.getGrayImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_NAME);
+        Mat grayImageMatrix = imageService.getGrayImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_CAT);
         imageService.saveMatToFile(
                 TEST_IMAGE_PATH + LAB_PATH,
                 "SobelX_",
@@ -66,7 +66,7 @@ public class ThirdLabTest extends LabTest {
     }
 
     private void laplacianTest() {
-        Mat grayImageMatrix = imageService.getGrayImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_NAME);
+        Mat grayImageMatrix = imageService.getGrayImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_CAT);
         imageService.saveMatToFile(
                 TEST_IMAGE_PATH + LAB_PATH,
                 "LaplacianX_",
@@ -75,7 +75,7 @@ public class ThirdLabTest extends LabTest {
     }
 
     private void mirrorTest() {
-        Mat image = imageService.getImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_NAME);
+        Mat image = imageService.getImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_CAT);
         imageService.saveMatToFile(
                 TEST_IMAGE_PATH + LAB_PATH,
                 "mirrorH_",
@@ -94,7 +94,7 @@ public class ThirdLabTest extends LabTest {
     }
 
     private void repeatTest() {
-        Mat image = imageService.getImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_NAME);
+        Mat image = imageService.getImageMatrix(TEST_IMAGE_PATH, TEST_IMAGE_CAT);
         imageService.saveMatToFile(
                 TEST_IMAGE_PATH + LAB_PATH,
                 "repeatVertical_",

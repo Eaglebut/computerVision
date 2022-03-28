@@ -12,7 +12,7 @@ public class SecondLabTest extends LabTest {
 
     @Test
     public void lab2() {
-        lab2(20, TEST_IMAGE_PATH, LAB_PATH, TEST_IMAGE_NAME);
+        lab2(20, TEST_IMAGE_PATH, LAB_PATH, TEST_IMAGE_CAT);
     }
 
     private Mat lab2(int numberOfChannel, String pathName, String labPathName, String imageName) {
