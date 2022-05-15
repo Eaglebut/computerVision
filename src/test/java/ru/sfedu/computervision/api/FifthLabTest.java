@@ -2,10 +2,10 @@ package ru.sfedu.computervision.api;
 
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Scalar;
+import org.opencv.core.*;
+import org.opencv.imgproc.Imgproc;
+
+import java.util.List;
 
 @Log4j2
 public class FifthLabTest extends LabTest {
@@ -13,6 +13,7 @@ public class FifthLabTest extends LabTest {
     public static final String LAB_PATH = "lab5/";
     public static final String TEST_IMAGE_GEOMETRY = "geometry.jpg";
     public static final String TEST_IMAGE_MANULS = "manuls.jpg";
+    public static final String TEST_IMAGE_RECTANGLES = "rectangles.jpg";
 
 
     @Test
@@ -48,12 +49,23 @@ public class FifthLabTest extends LabTest {
         Mat cropped = conversionService.resize(image, 400, 400);
         Mat smallImage = conversionService.pyramidDown(cropped, 1);
         Mat resized = conversionService.pyramidUp(smallImage, 1);
-        Mat dst = new Mat();
-        Core.subtract(cropped, resized, dst);
         imageService.saveMatToFile(
                 TEST_IMAGE_PATH + LAB_PATH,
                 "substructed",
-                dst
+                conversionService.subtractImages(cropped, resized)
         );
     }
+
+    @Test
+    public void task3() {
+        Mat img = new Mat(1000, 1000, CvType.CV_8UC3, new Scalar(255, 255, 255));
+        Imgproc.rectangle(img, new Point(50, 50), new Point(100, 100),
+                conversionService.getRandomColor(), Core.FILLED);
+        Imgproc.rectangle(img, new Point(110, 110), new Point(500, 500),
+                conversionService.getRandomColor(), Core.FILLED);
+        imageService.saveMatToFile(TEST_IMAGE_PATH + LAB_PATH, "rectangleSource", img);
+        List<Mat> rectangles = conversionService.findRectangles(img, 400, 400);
+        rectangles.forEach(mat -> imageService.saveMatToFile(TEST_IMAGE_PATH + LAB_PATH, "rectangle" + mat.hashCode(), mat));
+    }
+
 }
