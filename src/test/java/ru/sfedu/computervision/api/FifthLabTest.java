@@ -14,7 +14,6 @@ public class FifthLabTest extends LabTest {
     public static final String LAB_PATH = "lab5/";
     public static final String TEST_IMAGE_GEOMETRY = "geometry.jpg";
     public static final String TEST_IMAGE_MANULS = "manuls.jpg";
-    public static final String TEST_IMAGE_RECTANGLES = "rectangles.jpg";
 
 
     @Test

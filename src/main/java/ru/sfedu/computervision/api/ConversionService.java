@@ -272,9 +272,9 @@ public class ConversionService {
         return subtractImage;
     }
 
-    public SimpleEntry<Mat, Double> thresholdImage(Mat srcImage) {
+    public SimpleEntry<Mat, Double> thresholdImage(Mat srcImage, double thresh, double maxValue) {
         Mat thresholdImage = new Mat();
-        double threshold = Imgproc.threshold(srcImage, thresholdImage, 50, 255,
+        double threshold = Imgproc.threshold(srcImage, thresholdImage, thresh, maxValue,
                 Imgproc.THRESH_OTSU);
         return new SimpleEntry<>(thresholdImage, threshold);
     }
@@ -307,7 +307,7 @@ public class ConversionService {
         Mat histogramEqualizedImage = histogramEqualization(denoisedImage);
         Mat morphologicalOpenedImage = morphologicalOpening(histogramEqualizedImage, 5, 5);
         Mat subtractedImage = subtractImages(histogramEqualizedImage, morphologicalOpenedImage);
-        SimpleEntry<Mat, Double> threscholdedEntry = thresholdImage(subtractedImage);
+        SimpleEntry<Mat, Double> threscholdedEntry = thresholdImage(subtractedImage, 50, 255);
         Mat thresholdImage = threscholdedEntry.getKey();
         double threshold = threscholdedEntry.getValue();
         thresholdImage.convertTo(thresholdImage, CvType.CV_16SC1);
