@@ -7,12 +7,14 @@ import org.opencv.utils.Converters;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Log4j2
 public class ConversionService {
 
+    public static final int MAX_COLOR = 255;
     private static ConversionService instance;
 
     public static ConversionService getInstance() {
@@ -175,6 +177,61 @@ public class ConversionService {
         Mat dst = src.clone();
         Imgproc.morphologyEx(src, dst, Imgproc.MORPH_BLACKHAT, morph);
         return dst;
+    }
+
+    public Mat fillFlood(Mat srcImage,
+                         Point startPoint,
+                         Scalar topColorBorder,
+                         Scalar bottomColorBorder) {
+        return fillFlood(srcImage, startPoint, null, topColorBorder, bottomColorBorder);
+    }
+
+    public Mat fillFlood(Mat srcImage,
+                         Point startPoint,
+                         Scalar fillColor,
+                         Scalar topColorBorder,
+                         Scalar bottomColorBorder) {
+        if (fillColor == null) {
+            Random random = new Random();
+            fillColor = new Scalar(
+                    random.nextDouble(0, MAX_COLOR),
+                    random.nextDouble(0, MAX_COLOR),
+                    random.nextDouble(0, MAX_COLOR)
+            );
+        }
+        Imgproc.floodFill(
+                srcImage,
+                new Mat(),
+                startPoint,
+                fillColor,
+                new Rect(),
+                topColorBorder,
+                bottomColorBorder,
+                Imgproc.FLOODFILL_FIXED_RANGE
+        );
+        return srcImage;
+    }
+
+    public Mat pyramidDown(Mat srcImage, int amount) {
+        Mat result = new Mat();
+        if (amount > 0) {
+            Imgproc.pyrDown(srcImage, result);
+        }
+        for (int i = 1; i < amount; i++) {
+            Imgproc.pyrDown(result, result);
+        }
+        return result;
+    }
+
+    public Mat pyramidUp(Mat srcImage, int amount) {
+        Mat result = new Mat();
+        if (amount > 0) {
+            Imgproc.pyrUp(srcImage, result);
+        }
+        for (int i = 1; i < amount; i++) {
+            Imgproc.pyrUp(result, result);
+        }
+        return result;
     }
 
 }
