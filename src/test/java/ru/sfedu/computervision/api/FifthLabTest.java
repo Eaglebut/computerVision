@@ -1,6 +1,7 @@
 package ru.sfedu.computervision.api;
 
 import lombok.extern.log4j.Log4j2;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
@@ -59,13 +60,16 @@ public class FifthLabTest extends LabTest {
     @Test
     public void task3() {
         Mat img = new Mat(1000, 1000, CvType.CV_8UC3, new Scalar(255, 255, 255));
-        Imgproc.rectangle(img, new Point(50, 50), new Point(100, 100),
+        Imgproc.rectangle(img, new Point(0, 0), new Point(100, 100),
                 conversionService.getRandomColor(), Core.FILLED);
-        Imgproc.rectangle(img, new Point(110, 110), new Point(500, 500),
+        Imgproc.rectangle(img, new Point(200, 0), new Point(300, 100),
+                conversionService.getRandomColor(), Core.FILLED);
+        Imgproc.rectangle(img, new Point(100, 150), new Point(500, 500),
                 conversionService.getRandomColor(), Core.FILLED);
         imageService.saveMatToFile(TEST_IMAGE_PATH + LAB_PATH, "rectangleSource", img);
-        List<Mat> rectangles = conversionService.findRectangles(img, 400, 400);
+        List<Mat> rectangles = conversionService.findRectangles(img, 100, 100);
         rectangles.forEach(mat -> imageService.saveMatToFile(TEST_IMAGE_PATH + LAB_PATH, "rectangle" + mat.hashCode(), mat));
+        Assertions.assertEquals(2, rectangles.size());
     }
 
 }

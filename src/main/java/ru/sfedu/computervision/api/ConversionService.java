@@ -326,7 +326,7 @@ public class ConversionService {
                     Rect rect = Imgproc.boundingRect(approxContour);
                     return image.submat(rect);
                 })
-                .filter(mat -> Math.abs(mat.height() - height) < 1 && Math.abs(mat.width() - width) < 1)
+                .filter(mat -> Math.abs(mat.height() - height) < 15 && Math.abs(mat.width() - width) < 15)
                 .collect(Collectors.toList());
     }
 
